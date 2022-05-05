@@ -11,6 +11,7 @@ Bài đầu tiên chủ yểu đọc được code, rồi tìm hidden in4 giấu
 </application>
 ```
 Ta thấy `MainApplication` là điểm bắt đầu
+
 Đọc 1 lượt code thì tới hàm `getBundleAssetName()`
 
 ![image](https://user-images.githubusercontent.com/46492646/166906138-783ca30d-333c-496d-b0b2-0e57c95229df.png)
@@ -31,6 +32,7 @@ Deocde base64 ra lấy flag thôi:
 Đề cho 1 file `cat.ab`, search google thì biết đây là file Android Backup, mình cần unpack nó ra để xem bên trong file có gì: https://stackoverflow.com/questions/18533567/how-to-extract-or-unpack-an-ab-file-android-backup-file
 
 Cạy cmd trên linux: `java.exe -jar abe.jar unpack cat.ab cat.rar ""`
+
 Sau khi chạy cmd bên trên thì unzip file `cat.rar` ra được 2 folder `app` với `shared`, tìm quanh 1 các tài nguyên để tìm flag:
 
 ![image](https://user-images.githubusercontent.com/46492646/166909219-b467325f-1456-4654-9e0e-e073e02d421c.png)
@@ -96,6 +98,7 @@ Tìm kiếm ví trí condition trong smali
 Ta có thể thấy dòng smali: `if-eqz p1, :cond_7b`, tức là nếu p1 == false thì sẽ thì chạy tới vị trí `:cond_7b` còn không thì sẽ chạy tiếp bên dưới
 
 Công việc của mình là sửa điều kiện chỗ này cho ngược lại như trong slide anh tsu là done kèo.
+
 Search 1 xíu để tìm câu điều kiện ngược với `if-eqz`: `if-nez`
 https://stackoverflow.com/questions/40613470/copy-else-statement-to-if-statement
 
