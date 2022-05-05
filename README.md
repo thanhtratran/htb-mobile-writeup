@@ -1,5 +1,6 @@
 # Don't Overreact
 Bài đầu tiên chủ yểu đọc được code, rồi tìm hidden in4 giấu trong client-side là ra được flag
+
 Đầu tiên đọc trước file AndroidManifest.xml để biết Class nào sẽ chạy đầu tiên khi mở app
 ```xml
 <application android:theme="@style/AppTheme" android:label="@string/app_name" 
@@ -81,14 +82,19 @@ try {
 }
 ```
 Dựa vào code ta có thể hiểu workflow code: check `Name == "admin" & md5(Password) == "a2a3d412e92d896134d9c9126d756f")`
+
 Nếu true thì show flag còn ko thì show `"Wrong Credentials!"`
+
 Thường mới tiếp cận thì sẽ tìm cách dịch ngược đoạn md5 tìm ra bản gốc thì sẽ rất khó, cách đơn giản nhất là sửa code trong smali
+
 Vì sao phải sửa code smali: Vì condition check Password nằm trong code nên chúng ta chỉ có thể chỉnh sửa code smali rồi sau đó repacked lại file apk rồi install nó thì sẽ bypass được thôi.
+
 Tìm kiếm ví trí condition trong smali
 
 ![image](https://user-images.githubusercontent.com/46492646/166912610-cef171e6-621d-4540-a8e2-14f02a4cd16d.png)
 
 Ta có thể thấy dòng smali: `if-eqz p1, :cond_7b`, tức là nếu p1 == false thì sẽ thì chạy tới vị trí `:cond_7b` còn không thì sẽ chạy tiếp bên dưới
+
 Công việc của mình là sửa điều kiện chỗ này cho ngược lại như trong slide anh tsu là done kèo.
 Search 1 xíu để tìm câu điều kiện ngược với `if-eqz`: `if-nez`
 https://stackoverflow.com/questions/40613470/copy-else-statement-to-if-statement
@@ -100,7 +106,9 @@ Sau đó sửa code smali sau khi unpack:
 ![image](https://user-images.githubusercontent.com/46492646/166914721-9cdaba6d-a107-401e-b703-b77d6f24f5a7.png)
 
 Sau đó repack file lại để install `apk b APKey`, file apk mới sẽ được tạo trong folder dist như ảnh bên trên.
+
 Sign file với `keytool` và `jarsigner` như trong slide
+
 Gỡ cài đặt file cũ rồi install lại file APK mới trong folder dist. Giờ thì nhập: `anhtradeptrai` là ra flag
 
 ![image](https://user-images.githubusercontent.com/46492646/166915287-05c2000f-7ec4-4006-ac39-05973201d8f0.png)
@@ -112,6 +120,7 @@ Dựa vào hint:
 ![image](https://user-images.githubusercontent.com/46492646/166915680-b7bb986b-f3d2-4f9c-a1c5-038b744ca087.png)
 
 Đầu tiên mình cài `plistutil`: https://command-not-found.com/plistutil
+
 Sau đó đọc file `challenge.plist`: `plistutil -i ch*.plist -o challenge.xml` thì tìm được flag: 
 
 ![image](https://user-images.githubusercontent.com/46492646/166916171-b3d5c5a8-58f8-4bf3-8458-e8bbd8432300.png)
